@@ -1,0 +1,19 @@
+{
+  "name": "invynsible",
+  "version": "1.0.0",
+  "description": "Invynsible👻: The binary for installing and running Scout🕵️",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "invynsible": "bin/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ora": "^7.0.1",
+    "yargs": "^17.7.2"
+  }
+}
