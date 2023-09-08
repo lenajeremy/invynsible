@@ -3,9 +3,12 @@ import ora from "ora";
 import cmd from "./cmd.js";
 import path from "path";
 import fs from "fs/promises";
+import os from "os";
 
+const HOME_DIR = os.homedir();
+const APP_DIR = ".scout";
 
-const BASE_DIR = "/Users/macbookpro/Desktop";
+const BASE_DIR = path.join(HOME_DIR, APP_DIR);
 
 async function runInvynsible(port) {
   console.log("\n<=============== Invynsible 👻 ===============> \n");
@@ -16,14 +19,14 @@ async function runInvynsible(port) {
   await installNpmPackages(spinner);
   await runBuild(spinner);
 
-  await cmd(["yarn", "start"], { cwd: `${BASE_DIR}/scout` });
+  await cmd(["yarn", "start"], { cwd: BASE_DIR });
 }
 
 function invynsibleJSONHelper(basedir) {
   async function hasJSONSettings() {
     try {
       const invynsibleJSON = await fs.readFile(
-        "/Users/macbookpro/Desktop/scout/invynsible.settings.json",
+        path.join(BASE_DIR, "invynsible.settings.json"),
         "utf-8"
       );
       return Boolean(invynsibleJSON.trim());
@@ -37,7 +40,7 @@ function invynsibleJSONHelper(basedir) {
 
     if (hasSettings) {
       const invynsibleJSON = await fs.readFile(
-        "/Users/macbookpro/Desktop/scout/invynsible.settings.json",
+        path.join(BASE_DIR, "invynsible.settings.json"),
         "utf-8"
       );
       return JSON.parse(invynsibleJSON);
@@ -52,7 +55,7 @@ function invynsibleJSONHelper(basedir) {
 
     try {
       await fs.writeFile(
-        "/Users/macbookpro/Desktop/scout/invynsible.settings.json",
+        path.join(BASE_DIR, "invynsible.settings.json"),
         JSON.stringify(currentSettingsValue)
       );
       return true;
@@ -72,11 +75,11 @@ async function cloneFilesFromGithub(spinner) {
   spinner.text = "Copying files to device \n";
   spinner.start();
   try {
-    if (!settings["hasClonedRepo"]) {
+    if (!(settings && settings["hasClonedRepo"])) {
       await cmd(
-        ["git", "clone", "https://github.com/jeremiahjacinth13/scout"],
+        ["git", "clone", "https://github.com/jeremiahjacinth13/scout", APP_DIR],
         {
-          cwd: BASE_DIR,
+          cwd: HOME_DIR,
         }
       );
 
@@ -100,8 +103,8 @@ async function installNpmPackages(spinner) {
     spinner.text = "Installing packages";
     spinner.start();
 
-    if (!settings["hasInstalledPackages"]) {
-      await cmd(["npm", "install"], { cwd: `${BASE_DIR}/scout` });
+    if (!(settings && settings["hasInstalledPackages"])) {
+      await cmd(["npm", "install"], { cwd: BASE_DIR });
       await updateSettingsValue("hasInstalledPackages", true);
     }
 
@@ -121,9 +124,9 @@ async function runBuild(spinner) {
     spinner.text = "Running build...";
     spinner.start();
 
-    if (!settings["hasBuiltProject"]) {
+    if (!(settings && settings["hasBuiltProject"])) {
       await cmd(["npm", "run", "build"], {
-        cwd: `${BASE_DIR}/scout`,
+        cwd: BASE_DIR,
       });
       await updateSettingsValue("hasBuiltProject", true);
     }
