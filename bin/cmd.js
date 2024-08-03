@@ -1,4 +1,5 @@
-import { spawn } from "child_process";
+// import { spawn } from "child_process";
+const {spawn} = require('child_process');
 
 function cmd(command, options) {
   let p = spawn(command[0], command.slice(1), options);
@@ -16,4 +17,5 @@ function cmd(command, options) {
   });
 }
 
-export default cmd;
+module.exports = cmd;
+// export default cmd;
