@@ -77,7 +77,7 @@ async function cloneFilesFromGithub(spinner) {
   try {
     if (!(settings && settings["hasClonedRepo"])) {
       await cmd(
-        ["git", "clone", "https://github.com/jeremiahjacinth13/scout", APP_DIR],
+        ["git", "clone", "https://github.com/lenajeremy/scout", APP_DIR],
         {
           cwd: HOME_DIR,
         }
