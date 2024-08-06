@@ -51,7 +51,7 @@ const BASE_DIR = path.join(HOME_DIR, APP_DIR);
       await installNpmPackages(spinner);
       await runBuild(spinner);
     
-      await cmd(["yarn", "start", "--port", port], { cwd: BASE_DIR });
+      await cmd(["npx", "next", "start", "--port", port], { cwd: BASE_DIR });
     }
     
     function invynsibleJSONHelper(basedir) {
@@ -157,7 +157,7 @@ const BASE_DIR = path.join(HOME_DIR, APP_DIR);
         spinner.start();
     
         if (!(settings && settings["hasBuiltProject"])) {
-          await cmd(["npx", "next", "build", "-p", "4000"], {
+          await cmd(["npx", "next", "build"], {
             cwd: BASE_DIR,
           });
           await updateSettingsValue("hasBuiltProject", true);
@@ -170,7 +170,7 @@ const BASE_DIR = path.join(HOME_DIR, APP_DIR);
         process.exit(1);
       }
     }
-    
+
 })();
 
 
