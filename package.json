@@ -1,6 +1,6 @@
 {
   "name": "invynsible",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Invynsible👻: The binary for installing and running Scout🕵️",
   "main": "index.js",
   "type": "commonjs",
